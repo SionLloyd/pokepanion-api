@@ -1,8 +1,17 @@
 import { Request, Response } from 'express';
+import { getRepository } from 'typeorm';
+import { User } from '../entities/user';
 
 export class UserController {
-    public static get(req: Request, res: Response): void {
-        res.json({id: req.params.id});
+    public static async get(req: Request, res: Response): Promise<void> {
+        const userRepository = getRepository(User);
+        try {
+            const user = await userRepository.findOneOrFail(req.params.id);
+            res.json(user);
+        } catch (err) {
+            res.json(err);
+            res.status(500);
+        }
     }
 
     public static update(_req: Request, res: Response): void {
