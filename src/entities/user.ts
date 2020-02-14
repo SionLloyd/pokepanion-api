@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BeforeInsert, AfterLoad} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BeforeInsert} from "typeorm";
 import bcrypt from 'bcrypt';
 
 @Entity()
@@ -23,11 +23,6 @@ export class User {
 
     @UpdateDateColumn({ default: new Date() })
     public updatedAt!: Date;
-
-    @AfterLoad()
-    stripPassword() {
-        delete this.password;
-    }
 
     @BeforeInsert()
     async hashPassword() {
