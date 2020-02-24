@@ -6,7 +6,8 @@ export class UserController {
     public static async get(req: Request, res: Response): Promise<void> {
         const userRepository = getRepository(User);
         try {
-            const user = await userRepository.findOneOrFail(req.params.id);
+            const user = await userRepository.findOneOrFail((req as any).user);
+            delete user.password;
             res.json(user);
         } catch (err) {
             res.json(err);

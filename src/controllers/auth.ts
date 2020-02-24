@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { User } from '../entities/user';
+import { Sessions } from '../lib/sessions';
 import bcrypt from 'bcrypt';
+import jsonwebtoken from 'jsonwebtoken';
 
 export class AuthController {
     public static async signup(req: Request, res: Response): Promise<void> {
@@ -35,11 +37,15 @@ export class AuthController {
             return res.status(401).json('Password incorrect');
         }
 
-        return res.send('W00!');
+        await Sessions.create(user.id);
+
+        const jwt = jsonwebtoken.sign({id: user.id}, 'lapras');
+        return res.send(jwt);
     }
 
-    public static logout(_req: Request, res: Response): void {
-        res.send('ok');
+    public static async logout(req: Request, res: Response): Promise<void> {
+        await Sessions.remove((req as any).user)
+        res.status(204).end();
     }
 
 
