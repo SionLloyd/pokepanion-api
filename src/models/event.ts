@@ -4,6 +4,7 @@ interface IEvent {
   name: String,
   date: String, // Change in future?
   type: String,
+  tips: [{String, String}]
 }
 
 const eventSchema = new Schema({
@@ -18,7 +19,13 @@ const eventSchema = new Schema({
   type: {
     type: String,
     required: true,
-  }
+  },
+  tips: [
+    {
+      title: {type: String, required: true},
+      data: {type: String, required: true}
+    }
+  ]
 })
 
 const Event = model<IEvent>('Event', eventSchema)
