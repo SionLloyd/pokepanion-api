@@ -4,7 +4,9 @@ interface IEvent {
   name: String,
   date: String, // Change in future?
   type: String,
-  tips: [{String, String}]
+  location: String,
+  rewards: String,
+  cost: String
 }
 
 const eventSchema = new Schema({
@@ -20,12 +22,18 @@ const eventSchema = new Schema({
     type: String,
     required: true,
   },
-  tips: [
-    {
-      title: {type: String, required: true},
-      data: {type: String, required: true}
-    }
-  ]
+  location: {
+    type: String,
+    required: true,
+  },
+  rewards: {
+    type: String,
+    required: true,
+  },
+  cost: {
+    type: String,
+    required: true,
+  }
 })
 
 const Event = model<IEvent>('Event', eventSchema)

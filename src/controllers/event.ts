@@ -61,12 +61,12 @@ const deleteEvent = async (req: Request, res: Response) => {
  * @returns 
  */
 const addEvent = async (req: Request, res: Response) => {
-  const { name, date, type } = req.body
+  const { name, date, type, location, rewards, cost } = req.body
 
-  if (!name || !date || !type ) { return res.status(400).send({ error: 'name, date and type are required' })}
+  if (!name || !date || !type || !location || !rewards || !cost ) { return res.status(400).send({ error: 'All relevant event information is required for event creation' })}
 
   try {
-    const event = new Event({ name, date, type })
+    const event = new Event({ name, date, type, location, rewards, cost })
     await event.save()
     return res.status(201).send(event)
   } catch (error: any) {
@@ -74,27 +74,4 @@ const addEvent = async (req: Request, res: Response) => {
   }
 }
 
-/**
- * Add a trainer tip to an event
- * @param req 
- * @param res 
- * @returns 
- */
-const addTrainerTip = async (req: Request, res: Response) => {
-  const { id, title, data } = req.body
-
-  if ( !id || !title || !data ) { return res.status(400).send({ error: 'tip title, tip data and id are required' })}
-
-  try {
-    const event = await Event.findByIdAndUpdate(  
-      id,
-      {$push: {"tips": {title: title, data: data}}},
-      {upsert: true, new : true}
-    )
-    return res.status(200).send(event)
-  } catch (error: any) {
-    return res.status(500).send({ error: error.message })
-  }
-}
-
-export { getEvents, getEventById, deleteEvent, addEvent, addTrainerTip }
+export { getEvents, getEventById, deleteEvent, addEvent }
