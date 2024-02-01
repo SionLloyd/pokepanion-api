@@ -9,6 +9,7 @@ import { Event } from '../models/event';
  */
 const getEvents = async (req: Request, res: Response) => {
   try {
+    console.log(req)
     const events = await Event.find({})
     return res.send(events)
   } catch (error: any) {
@@ -61,12 +62,12 @@ const deleteEvent = async (req: Request, res: Response) => {
  * @returns 
  */
 const addEvent = async (req: Request, res: Response) => {
-  const { name, date, type, location, rewards, cost } = req.body
+  const { name, date, type, location, rewards, cost, submittedBy } = req.body
 
-  if (!name || !date || !type || !location || !rewards || !cost ) { return res.status(400).send({ error: 'All relevant event information is required for event creation' })}
+  if (!name || !date || !type || !location || !rewards || !cost || !submittedBy ) { return res.status(400).send({ error: 'All relevant event information is required for event creation' })}
 
   try {
-    const event = new Event({ name, date, type, location, rewards, cost })
+    const event = new Event({ name, date, type, location, rewards, cost, submittedBy })
     await event.save()
     return res.status(201).send(event)
   } catch (error: any) {

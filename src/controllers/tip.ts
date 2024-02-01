@@ -8,12 +8,12 @@ import { Tip } from '../models/tip';
  * @returns 
  */
 const addTrainerTip = async (req: Request, res: Response) => {
-  const { id, type, data } = req.body
+  const { id, type, data, submittedBy } = req.body
 
-  if ( !id || !type || !data ) { return res.status(400).send({ error: 'tip type, tip data and id are required' })}
+  if ( !id || !type || !data || !submittedBy ) { return res.status(400).send({ error: 'tip type, tip data and id are required' })}
 
   try {
-    const tip = new Tip({ id, type, data })
+    const tip = new Tip({ id, type, data, submittedBy })
     await tip.save()
     return res.status(201).send(tip)
   } catch (error: any) {

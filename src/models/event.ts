@@ -6,7 +6,8 @@ interface IEvent {
   type: String,
   location: String,
   rewards: String,
-  cost: String
+  cost: String,
+  submittedBy: String
 }
 
 const eventSchema = new Schema({
@@ -31,6 +32,10 @@ const eventSchema = new Schema({
     required: true,
   },
   cost: {
+    type: String,
+    required: true,
+  },
+  submittedBy: {
     type: String,
     required: true,
   }

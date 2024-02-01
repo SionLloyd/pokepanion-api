@@ -3,7 +3,8 @@ import { Schema, model } from "mongoose";
 interface ITip {
   id: String,
   type: String,
-  data: String
+  data: String,
+  submittedBy: String
 }
 
 const tipSchema = new Schema({
@@ -19,6 +20,10 @@ const tipSchema = new Schema({
     type: String,
     required: true,
   },
+  submittedBy: {
+    type: String,
+    required: true,
+  }
 })
 
 const Tip = model<ITip>('Tip', tipSchema)
